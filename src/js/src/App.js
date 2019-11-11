@@ -1,6 +1,8 @@
-import React, { useState, useEffect }from 'react';
+import React, { fragment, useState, useEffect }from 'react';
 import './App.css';
 import { getAllStudents } from './client';
+
+import DisplayStudents from './DisplayStudents';
 
 const App = () => {
   const [students, setStudents] = useState([]);
@@ -20,12 +22,7 @@ const App = () => {
 
   return (
     <div className="App">
-
-      {students ? 
-        students.map(student => (<div key={student.studentId}>{student.firstName} {student.lastName}</div>))
-        :
-        <div>Sorry, but no students could be found</div>
-      }
+      <DisplayStudents />
     </div>
   );
 }
