@@ -1,8 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { getAllStudents } from './client';
 
-function App() {
+const App = () => {
+  getAllStudents().then(res => res.json().then(students => {
+    console.log(students) 
+  }));
   return (
     <div className="App">
     </div>
