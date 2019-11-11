@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { getAllStudents } from './client';
 
 const DisplayStudents = () => {
@@ -17,7 +17,7 @@ const DisplayStudents = () => {
     }, []);
 
     return (
-        <>
+        <Fragment>
             {students ?
                 students.map(student => (
                     <div key={student.studentId}>{student.firstName} {student.lastName}
@@ -25,7 +25,7 @@ const DisplayStudents = () => {
                 :
                 <div>Sorry, but no students could be found</div>
             }
-        </>
+        </Fragment>
     );
 }
 
