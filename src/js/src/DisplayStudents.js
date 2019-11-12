@@ -1,17 +1,25 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getAllStudents } from './client';
 import { 
-    Table
+    Table,
+    Avatar,
+    Spin,
+    Icon
 } from 'antd';
+
+import Container from './Container';
 
 const DisplayStudents = () => {
     const [students, setStudents] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
     const fetchStudents = () => {
+        setIsFetching(true);
         getAllStudents()
             .then(res => res.json()
                 .then(students => {
                     console.log(students);
                     setStudents(students);
+                    setIsFetching(false);
                 }
                 ));
     };
@@ -19,7 +27,20 @@ const DisplayStudents = () => {
         fetchStudents();
     }, []);
 
+    const getIndicatorIcon = () => (<Icon type="loading" style={{fontSize: 24}} />);
     const columns = [
+        {
+            title: '',
+            key: 'avatar',
+            render: (text, student) => (
+                <Avatar size='large'>
+                    {
+                        `${student.firstName.charAt(0).toUpperCase()} 
+                         ${student.lastName.charAt(0).toUpperCase()}`
+                    }
+                </Avatar>
+            )
+        },
         {
             title: 'Student ID',
             dataIndex: 'studentId',
@@ -47,17 +68,26 @@ const DisplayStudents = () => {
         },
     ];
 
+    if(isFetching){ 
+        return (
+            <Container>
+                <Spin indicator={getIndicatorIcon()}/>
+            </Container>
+        );
+    }
+
     return (
-        <Fragment>
-            {students && students.length ?
-                (<Table 
-                    dataSource={students} 
-                    columns={columns} 
-                />)
-                :
-                (<div>Sorry, but no students could be found</div>)
-            }
-        </Fragment>
+        <Container>
+                {students && students.length ?
+                    (<Table 
+                        dataSource={students} 
+                        columns={columns} 
+                        pagination={false}
+                    />)
+                    :
+                    (<div>Sorry, but no students could be found</div>)
+                }
+        </Container>
     );
 }
 
