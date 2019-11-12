@@ -19,19 +19,43 @@ const DisplayStudents = () => {
         fetchStudents();
     }, []);
 
+    const columns = [
+        {
+            title: 'Student ID',
+            dataIndex: 'studentId',
+            key: 'studentId',
+        },
+        {
+            title: 'First Name',
+            dataIndex: 'firstName',
+            key: 'firstName',
+        },
+        {
+            title: 'Last Name',
+            dataIndex: 'lastName',
+            key: 'lastName',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
+            title: 'Gender',
+            dataIndex: 'gender',
+            key: 'gender',
+        },
+    ];
+
     return (
         <Fragment>
             {students && students.length ?
-                students.map(student => (
-                    <div key={student.studentId}>
-                        <h2> {student.studentId }</h2>
-                        <p>{ student.firstName }</p>
-                        <p>{ student.lastName }</p>
-                        <p>{ student.gender }</p>
-                        <p>{ student.email }</p>
-                    </div>))
+                (<Table 
+                    dataSource={students} 
+                    columns={columns} 
+                />)
                 :
-                <div>Sorry, but no students could be found</div>
+                (<div>Sorry, but no students could be found</div>)
             }
         </Fragment>
     );
